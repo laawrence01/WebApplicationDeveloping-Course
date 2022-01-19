@@ -9,8 +9,8 @@ namespace Proiect_DAW.Models
         public string Title { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime PostDate { get; set; }
-        public string Description { get; set; }
-        public decimal Cooking_time { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public string Genre { get; set; }
+        public decimal Price { get; set; }
     }
 }
