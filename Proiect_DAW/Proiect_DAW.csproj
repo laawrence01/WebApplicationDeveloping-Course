@@ -15,6 +15,7 @@
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="Repositories\" />
+    <None Remove="Manager\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.13" />
@@ -31,5 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repositories\" />
+    <Folder Include="Manager\" />
   </ItemGroup>
 </Project>
