@@ -7,16 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proiect_DAW.Models;
 using Proiect_DAW.data;
+using Proiect_DAW.Manager;
 
 namespace Proiect_DAW.Controllers
 {
     public class UserController : Controller
     {
+        private readonly UserManager _userManager;
         private readonly Proiect_DAWContext _context;
 
         public UserController(Proiect_DAWContext context)
         {
             _context = context;
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromForm] String password,[FromForm] String username)
+        {
+            var response = _userManager.Login(password, username);
+            if(response == true)
+            return Ok();
+               else
+            return Conflict();
         }
 
         // GET: User
