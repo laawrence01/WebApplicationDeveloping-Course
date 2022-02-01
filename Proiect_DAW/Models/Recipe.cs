@@ -12,5 +12,7 @@ namespace Proiect_DAW.Models
         public DateTime PostDate { get; set; }
         public string Description { get; set; }
         public decimal Cooking_time { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
     }
 }

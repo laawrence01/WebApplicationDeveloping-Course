@@ -10,23 +10,22 @@ using Proiect_DAW.data;
 
 namespace Proiect_DAW.Controllers
 {
-    public class RecipeController : Controller
+    public class RoleController : Controller
     {
         private readonly Proiect_DAWContext _context;
 
-        public RecipeController(Proiect_DAWContext context)
+        public RoleController(Proiect_DAWContext context)
         {
             _context = context;
         }
 
-        // GET: Recipe
+        // GET: Role
         public async Task<IActionResult> Index()
         {
-            var proiect_DAWContext = _context.Recipe.Include(r => r.User);
-            return View(await proiect_DAWContext.ToListAsync());
+            return View(await _context.Role.ToListAsync());
         }
 
-        // GET: Recipe/Details/5
+        // GET: Role/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace Proiect_DAW.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipe
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (recipe == null)
+            var role = await _context.Role
+                .FirstOrDefaultAsync(m => m.RoleId == id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(recipe);
+            return View(role);
         }
 
-        // GET: Recipe/Create
+        // GET: Role/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
             return View();
         }
 
-        // POST: Recipe/Create
+        // POST: Role/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,PostDate,Description,Cooking_time,UserId")] Recipe recipe)
+        public async Task<IActionResult> Create([Bind("RoleId,Type")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(recipe);
+                _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", recipe.UserId);
-            return View(recipe);
+            return View(role);
         }
 
-        // GET: Recipe/Edit/5
+        // GET: Role/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace Proiect_DAW.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipe.FindAsync(id);
-            if (recipe == null)
+            var role = await _context.Role.FindAsync(id);
+            if (role == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", recipe.UserId);
-            return View(recipe);
+            return View(role);
         }
 
-        // POST: Recipe/Edit/5
+        // POST: Role/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,PostDate,Description,Cooking_time,UserId")] Recipe recipe)
+        public async Task<IActionResult> Edit(int id, [Bind("RoleId,Type")] Role role)
         {
-            if (id != recipe.Id)
+            if (id != role.RoleId)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace Proiect_DAW.Controllers
             {
                 try
                 {
-                    _context.Update(recipe);
+                    _context.Update(role);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RecipeExists(recipe.Id))
+                    if (!RoleExists(role.RoleId))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace Proiect_DAW.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", recipe.UserId);
-            return View(recipe);
+            return View(role);
         }
 
-        // GET: Recipe/Delete/5
+        // GET: Role/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +124,30 @@ namespace Proiect_DAW.Controllers
                 return NotFound();
             }
 
-            var recipe = await _context.Recipe
-                .Include(r => r.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (recipe == null)
+            var role = await _context.Role
+                .FirstOrDefaultAsync(m => m.RoleId == id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(recipe);
+            return View(role);
         }
 
-        // POST: Recipe/Delete/5
+        // POST: Role/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var recipe = await _context.Recipe.FindAsync(id);
-            _context.Recipe.Remove(recipe);
+            var role = await _context.Role.FindAsync(id);
+            _context.Role.Remove(role);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RecipeExists(int id)
+        private bool RoleExists(int id)
         {
-            return _context.Recipe.Any(e => e.Id == id);
+            return _context.Role.Any(e => e.RoleId == id);
         }
     }
 }
